@@ -2,9 +2,10 @@ import React from "react";
 
 function SongItem({ song, onSelectSong }) {
   return (
-    <div className="mb-4 ">
+    <div className="mb-2">
+      
       <div
-        className="p-4 bg-gray-800 rounded-md cursor-pointer hover:bg-gray-700 transition w-full h-10 flex items-center space-x-4"
+        className="p-2 cursor-pointer hover:bg-gray-700 transition rounded-md flex items-center space-x-4"
         onClick={onSelectSong}
       >
         <img

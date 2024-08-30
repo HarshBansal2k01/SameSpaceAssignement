@@ -1,43 +1,60 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-function Player({ song }) {
-//   const audioRef = useRef(null);
-//   const [isPlaying, setIsPlaying] = useState(false);
+const Player = ({ song }) => {
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-//   useEffect(() => {
-//     if (isPlaying) {
-//       audioRef.current.play();
-//     } else {
-//       audioRef.current.pause();
-//     }
-//   }, [isPlaying]);
+  useEffect(() => {
+    if (song && audioRef.current) {
+      setIsPlaying(true);
+      console.log("auto play");
+      audioRef.current.load();
+    }
+  }, [song]);
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        console.log("isPlaying", isPlaying);
+        audioRef.current.play();
+      } else {
+        console.log("isPlaying", isPlaying);
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
 
   return (
-    // <div className="fixed bottom-0 left-0 right-0 bg-gray-800 p-4">
-    //   <div className="flex items-center justify-between">
-    //     <div className="flex items-center space-x-4">
-    //       <img src={`https://cms.samespace.com/assets/${song.cover}`} alt={song.title} className="w-12 h-12 rounded" />
-    //       <div>
-    //         <h3 className="text-lg">{song.title}</h3>
-    //         <p className="text-sm text-gray-400">{song.artist}</p>
-    //       </div>
-    //     </div>
-    //     <div>
-    //         <h1>player</h1>
-    //       <button 
-    //         className="px-4 py-2 bg-gray-700 rounded-full hover:bg-gray-600 transition"
-    //         onClick={() => setIsPlaying(!isPlaying)}
-    //       >
-    //         {isPlaying ? 'Pause' : 'Play'}
-    //       </button>
-    //     </div>
-    //   </div>
-    //   <audio ref={audioRef} src={song.url} />
-    // </div>
     <>
-    <h1>Player</h1>
+      <div className="w-[480px] h-[692.24px]   p-4 overflow-hidden">
+        {song && (
+          <>
+            <div className="flex flex-col">
+              <span className="text-white text-[32px] font-semibold">
+                {song.name}
+              </span>
+              <span className="text-gray-400 text-[16px]">{song.artist}</span>
+            </div>
+            <div className="flex-1 flex items-center h-[510px] justify-center overflow-hidden">
+              <img
+                src={`https://cms.samespace.com/assets/${song.cover}`}
+                alt={song.name}
+                className="w-[480px] h-[480px] object-cover rounded-lg"
+              />
+            </div>
+            <div className="mt-4 flex justify-center">
+              <button
+                className="px-4 py-2 bg-gray-700 rounded-full hover:bg-gray-600 transition"
+                onClick={() => setIsPlaying(!isPlaying)}
+              >
+                {isPlaying ? "Pause" : "Play"}
+              </button>
+            </div>
+          </>
+        )}
+        {song && <audio ref={audioRef} src={song.url} />}
+      </div>
     </>
   );
-}
+};
 
 export default Player;
