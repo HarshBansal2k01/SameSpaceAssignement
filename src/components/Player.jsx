@@ -6,11 +6,11 @@ const Player = ({ song }) => {
 
   useEffect(() => {
     if (song && audioRef.current) {
-      setIsPlaying(true);
-      console.log("auto play");
+      console.log("Song loaded");
       audioRef.current.load();
     }
-  }, [song]);
+  }, [song?.id]);
+
   useEffect(() => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -25,7 +25,7 @@ const Player = ({ song }) => {
 
   return (
     <>
-      <div className="w-[480px] h-[692.24px]   p-4 overflow-hidden">
+      <div className="w-[480px] h-[692.24px] p-4 overflow-hidden">
         {song && (
           <>
             <div className="flex flex-col">

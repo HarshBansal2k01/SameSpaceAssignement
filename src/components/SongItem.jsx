@@ -1,12 +1,16 @@
 import React from "react";
-
-function SongItem({ song, onSelectSong }) {
+import "./SongItem.css"
+function SongItem({ song, onSelectSong,backgroundColor }) {
+  console.log("backgroundColor",backgroundColor);
   return (
     <div className="mb-2">
       
       <div
-        className="p-2 cursor-pointer hover:bg-gray-700 transition rounded-md flex items-center space-x-4"
+        className="p-2 cursor-pointer transition rounded-md flex items-center space-x-4 song-item"
         onClick={onSelectSong}
+        style={{
+          "--hover-background-color": backgroundColor, // Set the custom property
+        }}
       >
         <img
           src={`https://cms.samespace.com/assets/${song.cover}`}

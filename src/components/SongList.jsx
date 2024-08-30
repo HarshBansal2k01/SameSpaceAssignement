@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SongItem from "./SongItem";
 import Search from "./Search";
 
-function SongList({ songs, onSelectSong }) {
+function SongList({ songs, onSelectSong ,backgroundColor}) {
   const [filteredSongs, setFilteredSongs] = useState(songs);
   const [selectedSection, setSelectedSection] = useState("For You");
 
@@ -23,7 +23,7 @@ function SongList({ songs, onSelectSong }) {
   };
 
   return (
-    <div className="relative w-[432px] h-[856px] mt-[40px] ml-[280px] opacity-100 p-4">
+    <div className="relative w-[432px] h-[856px] ml-[280px] opacity-100 p-4">
       <div className="flex gap-0">
         <div
           className={`w-auto cursor-pointer pr-4 ${
@@ -47,7 +47,7 @@ function SongList({ songs, onSelectSong }) {
         </div>
       </div>
       <div className="mt-4">
-        <Search onFilter={handleSearch} songs={songs} />
+        <Search onFilter={handleSearch} songs={songs} backgroundColor={backgroundColor}/>
       </div>
       <div className="space-y-2 mt-4">
         {filteredSongs.map((song) => (
@@ -55,6 +55,7 @@ function SongList({ songs, onSelectSong }) {
             key={song.id}
             song={song}
             onSelectSong={() => onSelectSong(song)}
+            backgroundColor={backgroundColor}
           />
         ))}
       </div>
