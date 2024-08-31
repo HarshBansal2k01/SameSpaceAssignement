@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SongItem from "./SongItem";
 import Search from "./Search";
 
-function SongList({ songs, onSelectSong ,backgroundColor}) {
+function SongList({ songs, onSelectSong, backgroundColor }) {
   const [filteredSongs, setFilteredSongs] = useState(songs);
   const [selectedSection, setSelectedSection] = useState("For You");
 
@@ -23,7 +23,7 @@ function SongList({ songs, onSelectSong ,backgroundColor}) {
   };
 
   return (
-    <div className="relative w-[432px] h-[856px] ml-[280px] opacity-100 p-4">
+    <div className="relative w-full sm:w-[432px] h-[856px] ml-0 sm:ml-[280px] p-2 sm:p-4">
       <div className="flex gap-0">
         <div
           className={`w-auto cursor-pointer pr-4 ${
@@ -31,7 +31,7 @@ function SongList({ songs, onSelectSong ,backgroundColor}) {
           }`}
           onClick={() => setSelectedSection("For You")}
         >
-          <h2 className="font-inter text-[24px] font-bold leading-[32px] text-left">
+          <h2 className="text-[20px] sm:text-[24px] font-bold leading-[32px] text-left">
             For You
           </h2>
         </div>
@@ -41,13 +41,17 @@ function SongList({ songs, onSelectSong ,backgroundColor}) {
           }`}
           onClick={() => setSelectedSection("Top Tracks")}
         >
-          <h2 className="font-inter text-[24px] font-bold leading-[32px] text-left">
+          <h2 className="text-[20px] sm:text-[24px] font-bold leading-[32px] text-left">
             Top Tracks
           </h2>
         </div>
       </div>
       <div className="mt-4">
-        <Search onFilter={handleSearch} songs={songs} backgroundColor={backgroundColor}/>
+        <Search
+          onFilter={handleSearch}
+          songs={songs}
+          backgroundColor={backgroundColor}
+        />
       </div>
       <div className="space-y-2 mt-4">
         {filteredSongs.map((song) => (

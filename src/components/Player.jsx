@@ -15,6 +15,8 @@ const Player = ({ song, songs }) => {
   const [currentIndex, setCurrentIndex] = useState(
     songs.findIndex((s) => s.id === song.id) // Initialize with the current song's index
   );
+  const [volume, setVolume] = useState(0.8); // Default volume (80%)
+  const [showVolumeControl, setShowVolumeControl] = useState(false); // Track volume control visibility
 
   const audioRef = useRef(null);
 
@@ -49,6 +51,7 @@ const Player = ({ song, songs }) => {
   }, [currentIndex, songs]);
 
   const currentSong = songs[currentIndex];
+
   // Handle progress bar change
   const handleSeekChange = (e) => {
     const newValue = parseFloat(e.target.value);
@@ -59,6 +62,7 @@ const Player = ({ song, songs }) => {
   const handleProgress = (progress) => {
     setPlayed(progress.played);
   };
+
   // Seek to the new position when the user stops dragging the seeker
   const handleSeekMouseUp = (e) => {
     const newValue = parseFloat(e.target.value);
@@ -66,24 +70,35 @@ const Player = ({ song, songs }) => {
     audioRef.current.seekTo(newValue);
   };
 
+  // Toggle volume control visibility
+  const handleVolumeClick = () => {
+    setShowVolumeControl((prev) => !prev);
+  };
+
+  // Handle volume change
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+  };
+
   return (
-    <div className="w-[480px] h-[692.24px] p-4 overflow-hidden">
+    <div className="w-full h-auto lg:w-[480px] lg:h-[800px] p-4 overflow-hidden">
       {currentSong && (
         <>
           <div className="flex flex-col">
-            <span className="text-white text-[32px] font-semibold">
-              {currentSong.name}
+          <span className="text-white text-[24px] lg:text-[32px] font-semibold">
+          {currentSong.name}
             </span>
-            <span className="text-gray-400 text-[16px]">
+            <span className="text-gray-400 text-[14px] lg:text-[16px]">
               {currentSong.artist}
             </span>
           </div>
 
-          <div className="flex-1 flex items-center h-[510px] justify-center overflow-hidden">
+          <div className="flex-1 flex items-center h-[300px] md:h-[400px] lg:h-[510px] justify-center overflow-hidden mt-4">
             <img
               src={`https://cms.samespace.com/assets/${currentSong.cover}`}
               alt={currentSong.name}
-              className="w-[480px] h-[480px] object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg"
             />
           </div>
           <input
@@ -93,17 +108,22 @@ const Player = ({ song, songs }) => {
             step="any"
             value={played}
             onChange={handleSeekChange}
-            onMouseUp={handleSeekMouseUp} // Seek to new position
-            className="w-full h-[6px] rounded-[16px] slider"
+            onMouseUp={handleSeekMouseUp}
+            className="w-full h-[6px] rounded-[16px] slider mt-4"
+            style={{
+              background: `linear-gradient(to right, white ${played * 100}%, transparent 0%)`,
+              appearance: "none",
+              cursor: "pointer",
+            }}
           />
-          <div className="mt-4 flex justify-between items-center">
-            <button className="px-2 py-2">
-              <img src={moreBtn} alt="More" className="w-[48px] h-[48px]" />
-            </button>
+          <div className="flex justify-between items-center mt-4">
+          <button className="px-2 py-2">
+          <img src={moreBtn} alt="More" className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]" />
+          </button>
 
-            <div className="mt-4 flex justify-center">
+            <div className="flex justify-center">
               <button onClick={handlePrev}>
-                <img src={prev} alt="Prev" className="w-[32px] h-[32px]" />
+              <img src={prev} alt="Prev" className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px]" />
               </button>
               <button
                 className="px-4 py-2 transition"
@@ -112,16 +132,38 @@ const Player = ({ song, songs }) => {
                 <img
                   src={isPlaying ? pause : play}
                   alt={isPlaying ? "Pause" : "Play"}
-                  className="w-[48px] h-[48px]"
+                  className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]"
                 />
               </button>
               <button onClick={handleNext}>
-                <img src={next} alt="Next" className="w-[32px] h-[32px]" />
+              <img src={next} alt="Next" className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px]" />
               </button>
             </div>
 
-            <div className="flex items-center">
-              <img src={audioBtn} alt="Audio" className="w-[48px] h- mr-2" />
+            <div className="relative">
+              <button onClick={handleVolumeClick}>
+              <img src={audioBtn} alt="Audio" className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]" />
+              </button>
+              {showVolumeControl && (
+                <div className="absolute -top-[160px] right-0 bg-gray-800 p-2 rounded-lg shadow-lg">
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step="any"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className="w-[160px] h-[6px] rounded-lg slider"
+                    style={{
+                      background: `linear-gradient(to right, white ${
+                        volume * 100
+                      }%, transparent 0%)`,
+                      appearance: "none",
+                      cursor: "pointer",
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </>
@@ -132,7 +174,8 @@ const Player = ({ song, songs }) => {
           ref={audioRef}
           url={currentSong.url}
           playing={isPlaying}
-          controls={false} // Set to true if you want built-in controls
+          controls={false} // We don't need built-in controls anymore
+          volume={volume} // Set volume for the player
           width="0"
           height="0"
           onProgress={handleProgress}

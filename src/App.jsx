@@ -36,7 +36,6 @@ function App() {
         if (fetchedSongs.length > 0) {
           setSelectedSong(fetchedSongs[0]);
           changeBackgroundColor(fetchedSongs[0].cover);
-
         }
       })
       .catch((error) => console.error("Error fetching songs:", error));
@@ -44,22 +43,32 @@ function App() {
 
   return (
     <div
-      style={{
-        background: `linear-gradient(to right, ${backgroundColor}, #000000)`,
-        transition: "background 0.5s ease",
-        minHeight: "100vh",
-      }}
-    >
-      <Header />
-      <div className="flex items-start space-x-20 -mt-20">
-        <div className="w-1/2 p-4">
-          <SongList songs={songs} onSelectSong={handleSelectSong} backgroundColor={backgroundColor}/>
-        </div>
-        <div className="w-1/2 p-4 mt-10">
-          <Player song={selectedSong} songs={songs} />
-        </div>
-      </div>
+  style={{
+    background: `linear-gradient(to right, ${backgroundColor}, #000000)`,
+    transition: "background 0.5s ease",
+    minHeight: "100vh",
+  }}
+>
+  {/* Header component visible on screens larger than 1024px */}
+  <Header className="hidden lg:block" />
+
+  <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-start lg:space-x-10 xl:space-x-20 -mt-10 lg:-mt-20">
+    {/* SongList hidden on screens 1024px and below */}
+    <div className="w-full lg:w-1/2 p-4 hidden xl:block">
+      <SongList
+        songs={songs}
+        onSelectSong={handleSelectSong}
+        backgroundColor={backgroundColor}
+      />
     </div>
+
+    {/* Player component, centered on small screens */}
+    <div className="w-full lg:w-1/2 p-4 mt-9 flex justify-center lg:justify-start">
+      <Player song={selectedSong} songs={songs} />
+    </div>
+  </div>
+</div>
+
   );
 }
 

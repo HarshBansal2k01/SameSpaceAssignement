@@ -20,7 +20,7 @@ function Search({ songs, onFilter, backgroundColor }) {
 
   return (
     <div
-      className="relative flex items-center rounded-lg overflow-hidden w-[400px] h-[48px] p-2.5 pr-[40px]"
+      className="relative flex items-center rounded-lg overflow-hidden w-full sm:w-[400px] h-[48px] p-2 sm:pr-[40px]"
       style={{
         backgroundColor,
       }}
@@ -30,7 +30,7 @@ function Search({ songs, onFilter, backgroundColor }) {
         value={query}
         onChange={handleChange}
         placeholder="Search Song, Artist"
-        className="w-full h-full text-gray-200 placeholder-gray-350  border-none focus:outline-none bg-transparent"
+        className="w-full h-full text-gray-200 placeholder-gray-350 bg-transparent border-none focus:outline-none"
         style={{
           backgroundColor,
         }}
@@ -38,7 +38,7 @@ function Search({ songs, onFilter, backgroundColor }) {
       <img
         src={searchLogo}
         alt="Search Icon"
-        className="w-[32px] h-[32px] absolute right-4 top-1/2 transform -translate-y-1/2"
+        className="w-[32px] h-[32px] absolute right-2 sm:right-4"
       />
     </div>
   );
