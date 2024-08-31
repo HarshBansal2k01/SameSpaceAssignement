@@ -35,6 +35,8 @@ function App() {
         setSongs(fetchedSongs);
         if (fetchedSongs.length > 0) {
           setSelectedSong(fetchedSongs[0]);
+          changeBackgroundColor(fetchedSongs[0].cover);
+
         }
       })
       .catch((error) => console.error("Error fetching songs:", error));
@@ -54,7 +56,7 @@ function App() {
           <SongList songs={songs} onSelectSong={handleSelectSong} backgroundColor={backgroundColor}/>
         </div>
         <div className="w-1/2 p-4 mt-10">
-          <Player song={selectedSong} />
+          <Player song={selectedSong} songs={songs} />
         </div>
       </div>
     </div>

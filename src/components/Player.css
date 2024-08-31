@@ -1,0 +1,68 @@
+/* Custom Range Slider Styles */
+input[type="range"].slider {
+  -webkit-appearance: none; /* Remove default slider styling */
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3); /* Background color */
+  border-radius: 16px; /* Border radius */
+  outline: none;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Slider Track */
+input[type="range"].slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3); /* Track background */
+  border-radius: 16px;
+}
+
+input[type="range"].slider::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.3); /* Track background */
+  border-radius: 16px;
+}
+
+/* Progress Bar (WebKit browsers) */
+input[type="range"].slider::-webkit-slider-runnable-track {
+  background: rgba(0, 0, 0, 0.3); /* Background track */
+}
+
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0; /* Hide the thumb */
+  height: 0;
+  background: transparent;
+}
+
+input[type="range"].slider::-webkit-slider-runnable-track:before {
+  content: "";
+  position: absolute;
+  width: calc(var(--value) * 100%);
+  height: 100%;
+  background-color: white; /* White progress color */
+  top: 0;
+  left: 0;
+  border-radius: 16px;
+  z-index: 1;
+}
+
+/* Progress Bar (Firefox) */
+input[type="range"].slider::-moz-range-progress {
+  background-color: white; /* Progress color */
+  height: 6px;
+  border-radius: 16px;
+}
+
+/* Hide the thumb */
+input[type="range"].slider::-moz-range-thumb {
+  -moz-appearance: none;
+  appearance: none;
+  width: 0; /* Hide the thumb */
+  height: 0;
+  background: transparent;
+}
