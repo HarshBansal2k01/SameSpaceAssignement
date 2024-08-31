@@ -43,3 +43,8 @@ input[type="range"].slider::-ms-thumb {
 .volume-slider {
   transition: opacity 0.3s ease;
 }
+
+/* Player.css */
+.transition-transform {
+  transition: transform 0.5s ease;
+}

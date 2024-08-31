@@ -8,7 +8,7 @@ import moreBtn from "../assets/morebtn.svg";
 import audioBtn from "../assets/volbtn.svg";
 import "./Player.css";
 
-const Player = ({ song, songs }) => {
+const Player = ({ song, songs,toggleView  }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [played, setPlayed] = useState(0); // Track progress
   const [duration, setDuration] = useState(0); // Track total duration
@@ -117,7 +117,7 @@ const Player = ({ song, songs }) => {
             }}
           />
           <div className="flex justify-between items-center mt-4">
-          <button className="px-2 py-2">
+          <button className="px-2 py-2" onClick={toggleView}>
           <img src={moreBtn} alt="More" className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]" />
           </button>
 

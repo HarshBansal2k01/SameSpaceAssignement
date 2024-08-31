@@ -1,20 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-import ReactPlayer from "react-player"; // Import ReactPlayer
-import play from "../assets/playBtn.svg";
-import pause from "../assets/pausebtn.svg";
-import next from "../assets/nextbtn.svg";
-import prev from "../assets/prevbtn.svg";
-import moreBtn from "../assets/morebtn.svg";
-import audioBtn from "../assets/volbtn.svg";
-import "./Player.css";
+import React, { useState, useRef, useEffect } from 'react';
+import ReactPlayer from 'react-player'; // Make sure to import this if using ReactPlayer
+import moreBtn from './path/to/moreBtn'; // Update with actual path
+// Import other assets
 
-const Player = ({ song, songs }) => {
+const Player = ({ song, songs, toggleView }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [played, setPlayed] = useState(0); // Track progress
-  const [duration, setDuration] = useState(0); // Track total duration
+  const [played, setPlayed] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(
-    songs.findIndex((s) => s.id === song.id) // Initialize with the current song's index
+    songs.findIndex((s) => s.id === song.id)
   );
+  const [volume, setVolume] = useState(0.8);
+  const [showVolumeControl, setShowVolumeControl] = useState(false);
 
   const audioRef = useRef(null);
 
@@ -27,79 +24,157 @@ const Player = ({ song, songs }) => {
 
   const handlePrev = () => {
     if (currentIndex !== null) {
-      const newIndex = (currentIndex - 1 + songs.length) % songs.length; // Handle wrap-around
+      const newIndex = (currentIndex - 1 + songs.length) % songs.length;
       setCurrentIndex(newIndex);
-      setIsPlaying(false); // Pause the current song
+      setIsPlaying(false);
     }
   };
 
   const handleNext = () => {
     if (currentIndex !== null) {
-      const newIndex = (currentIndex + 1) % songs.length; // Handle wrap-around
+      const newIndex = (currentIndex + 1) % songs.length;
       setCurrentIndex(newIndex);
-      setIsPlaying(false); // Pause the current song
+      setIsPlaying(false);
     }
   };
 
   useEffect(() => {
     if (currentIndex !== null && songs[currentIndex]) {
       const newSong = songs[currentIndex];
-      setIsPlaying(true); // Automatically start playing the new song
+      setIsPlaying(true);
     }
   }, [currentIndex, songs]);
 
   const currentSong = songs[currentIndex];
 
-  // Handle progress bar change
   const handleSeekChange = (e) => {
     const newValue = parseFloat(e.target.value);
     setPlayed(newValue);
   };
 
-  // Handle progress updates from ReactPlayer
   const handleProgress = (progress) => {
     setPlayed(progress.played);
   };
 
-  // Seek to the new position when the user stops dragging the seeker
   const handleSeekMouseUp = (e) => {
     const newValue = parseFloat(e.target.value);
     setPlayed(newValue);
     audioRef.current.seekTo(newValue);
   };
 
+  const handleVolumeClick = () => {
+    setShowVolumeControl((prev) => !prev);
+  };
+
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+  };
+
   return (
-    <div className="w-[480px] h-[692.24px] p-4 overflow-hidden">
+    <div className="w-full h-auto lg:w-[480px] lg:h-[800px] p-4 overflow-hidden">
       {currentSong && (
         <>
           <div className="flex flex-col">
-            <span className="text-white text-[32px] font-semibold">
+            <span className="text-white text-[24px] lg:text-[32px] font-semibold">
               {currentSong.name}
             </span>
-            <span className="text-gray-400 text-[16px]">
+            <span className="text-gray-400 text-[14px] lg:text-[16px]">
               {currentSong.artist}
             </span>
           </div>
 
-          <div className="flex-1 flex items-center h-[510px] justify-center overflow-hidden">
+          <div className="flex-1 flex items-center h-[300px] md:h-[400px] lg:h-[510px] justify-center overflow-hidden mt-4">
             <img
               src={`https://cms.samespace.com/assets/${currentSong.cover}`}
               alt={currentSong.name}
-              className="w-[480px] h-[480px] object-cover rounded-lg"
+              className="w-full h-full object-cover rounded-lg"
             />
           </div>
-
-          <div className="mt-4 flex justify-between items-center">
-            <button className="px-2 py-2">
-              <img src={moreBtn} alt="More" className="w-[48px] h-[48px]" />
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step="any"
+            value={played}
+            onChange={handleSeekChange}
+            onMouseUp={handleSeekMouseUp}
+            className="w-full h-[6px] rounded-[16px] slider mt-4"
+            style={{
+              background: `linear-gradient(to right, white ${played * 100}%, transparent 0%)`,
+              appearance: "none",
+              cursor: "pointer",
+            }}
+          />
+          <div className="flex justify-between items-center mt-4">
+            <button
+              className="px-2 py-2"
+              onClick={toggleView} // Use toggleView method from App
+            >
+              <img
+                src={moreBtn}
+                alt="More"
+                className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]"
+              />
             </button>
 
-            <div className="mt-4 flex justify-center">
+            <div className="flex justify-center">
               <button onClick={handlePrev}>
-                <img src={prev} alt="Prev" className="w-[32px] h-[32px]" />
+                <img
+                  src={prev}
+                  alt="Prev"
+                  className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px]"
+                />
               </button>
               <button
                 className="px-4 py-2 transition"
                 onClick={() => setIsPlaying(!isPlaying)}
               >
-                <
+                <img
+                  src={isPlaying ? pause : play}
+                  alt={isPlaying ? "Pause" : "Play"}
+                  className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]"
+                />
+              </button>
+              <button onClick={handleNext}>
+                <img
+                  src={next}
+                  alt="Next"
+                  className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px]"
+                />
+              </button>
+            </div>
+
+            <div className="relative">
+              <button onClick={handleVolumeClick}>
+                <img
+                  src={volume}
+                  alt="Volume"
+                  className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px]"
+                />
+              </button>
+              {showVolumeControl && (
+                <input
+                  type="range"
+                  min={0}
+                  max={1}
+                  step="any"
+                  value={volume}
+                  onChange={handleVolumeChange}
+                  className="absolute bottom-0 left-0 w-[100px] h-[6px] rounded-[16px] slider"
+                  style={{
+                    background: `linear-gradient(to right, white ${volume * 100}%, transparent 0%)`,
+                    appearance: "none",
+                    cursor: "pointer",
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Player;

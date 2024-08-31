@@ -1,7 +1,7 @@
 import React from "react";
 import "./SongItem.css"
 function SongItem({ song, onSelectSong,backgroundColor }) {
-  console.log("backgroundColor",backgroundColor);
+
   return (
     <div className="mb-2">
       
