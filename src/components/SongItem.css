@@ -1,10 +1,3 @@
-
-.song-item {
-    background-color: transparent; /* Default background color */
-    transition: background-color 0.3s ease;
-  }
-  
-  .song-item:hover {
-    background-color: var(--hover-background-color);
-  }
-  
+.song-item:hover {
+  background-color: "rgba(0, 0, 0, 0.5)";
+}

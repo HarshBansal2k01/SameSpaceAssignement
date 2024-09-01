@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import searchLogo from "../assets/search logo.png";
+import searchLogo from "../assets/searchLogo.svg";
 
 function Search({ songs, onFilter, backgroundColor }) {
   const [query, setQuery] = useState("");
@@ -19,26 +19,18 @@ function Search({ songs, onFilter, backgroundColor }) {
   };
 
   return (
-    <div
-      className="relative flex items-center rounded-lg overflow-hidden w-full sm:w-[400px] h-[48px] p-2 sm:pr-[40px]"
-      style={{
-        backgroundColor,
-      }}
-    >
+    <div className="relative flex items-center rounded-lg overflow-hidden w-full sm:w-[400px] h-[48px] pt-2 pb-2 pl-4 pr-4 sm:pr-[40px] bg-black bg-opacity-25">
       <input
         type="text"
         value={query}
         onChange={handleChange}
         placeholder="Search Song, Artist"
-        className="w-full h-full text-gray-200 placeholder-gray-350 bg-transparent border-none focus:outline-none"
-        style={{
-          backgroundColor,
-        }}
+        className="w-full h-full text-gray-200 placeholder-gray-350 bg-transparent border-none focus:outline-none text-[18px]"
       />
       <img
         src={searchLogo}
         alt="Search Icon"
-        className="w-[32px] h-[32px] absolute right-2 sm:right-4"
+        className="w-[19.33px] h-[19.33px] absolute right-2 sm:right-4 text-gray-300"
       />
     </div>
   );

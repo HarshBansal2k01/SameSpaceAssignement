@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
 import SongList from "./components/SongList";
 import Player from "./components/Player";
 import axios from "axios";
@@ -12,6 +11,7 @@ function App() {
   const [backgroundColor, setBackgroundColor] = useState("#000000");
   const [showPlayer, setShowPlayer] = useState(true); // Show Player by default
   const [showSongList, setShowSongList] = useState(false); // Hide SongList by default
+  const [isListVisible, setIsListVisible] = useState(true);
 
   const handleSelectSong = (song) => {
     setSelectedSong(song);
@@ -51,20 +51,20 @@ function App() {
 
   return (
     <div
-      style={{
-        background: `linear-gradient(to right, ${backgroundColor}, #000000)`,
-        transition: "background 0.5s ease",
-        minHeight: "100vh",
-      }}
+    style={{
+      background: `linear-gradient(to right, ${backgroundColor}, #333333)`,
+      transition: "background 0.5s ease",
+      minHeight: "100vh",
+    }}
+    
     >
       <Header className="hidden lg:block" />
 
       <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center lg:justify-start lg:space-x-10 xl:space-x-20 -mt-10 lg:-mt-20">
-        {/* Conditional rendering based on screen size and button click */}
         <div
           className={`w-full lg:w-1/2 p-4 ${
             showSongList ? "block" : "hidden"
-          } xl:block`}
+          } xl:block lg:block lg:h-full`}
         >
           <SongList
             songs={songs}
@@ -82,6 +82,8 @@ function App() {
             song={selectedSong}
             songs={songs}
             toggleView={toggleView} // Pass toggle function
+            isListVisible={isListVisible}
+            setIsListVisible={setIsListVisible}
           />
         </div>
       </div>

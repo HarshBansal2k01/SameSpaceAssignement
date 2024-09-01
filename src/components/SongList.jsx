@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
-import SongItem from "./SongItem";
-import Search from "./Search";
+import React, { useState, useEffect } from "react";
+import Search from "./Search"; // Make sure to import your Search component
+import SongItem from "./SongItem"; // Import the updated SongItem component
+import Loader from "./Loader";
 
 function SongList({ songs, onSelectSong, backgroundColor }) {
   const [filteredSongs, setFilteredSongs] = useState(songs);
   const [selectedSection, setSelectedSection] = useState("For You");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    filterSongs();
+    setLoading(true); // Set loading to true when songs are updated
+    setTimeout(() => {
+      filterSongs();
+      setLoading(false); // Set loading to false after filtering songs
+    }, 1000); // Simulate a short delay for loading effect
   }, [songs, selectedSection]);
 
   const handleSearch = (searchResults) => {
@@ -46,23 +52,34 @@ function SongList({ songs, onSelectSong, backgroundColor }) {
           </h2>
         </div>
       </div>
-      <div className="mt-4">
-        <Search
-          onFilter={handleSearch}
-          songs={songs}
-          backgroundColor={backgroundColor}
-        />
-      </div>
-      <div className="space-y-2 mt-4">
-        {filteredSongs.map((song) => (
-          <SongItem
-            key={song.id}
-            song={song}
-            onSelectSong={() => onSelectSong(song)}
-            backgroundColor={backgroundColor}
-          />
-        ))}
-      </div>
+
+      {loading ? (
+        <div className="flex justify-center items-center h-full">
+          <Loader /> {/* Use your custom Loader component if needed */}
+        </div>
+      ) : (
+        <>
+          <div className="mt-4">
+            <Search
+              onFilter={handleSearch}
+              songs={songs}
+              backgroundColor={backgroundColor}
+            />
+          </div>
+
+          <div className="space-y-2 mt-4">
+            {filteredSongs.map((song) => (
+              <SongItem
+                key={song.id}
+                song={song}
+                url={song.url}
+                onSelectSong={() => onSelectSong(song)}
+                backgroundColor={backgroundColor}
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
