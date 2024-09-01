@@ -3,7 +3,7 @@ import Search from "./Search"; // Make sure to import your Search component
 import SongItem from "./SongItem"; // Import the updated SongItem component
 import Loader from "./Loader";
 
-function SongList({ songs, onSelectSong, backgroundColor }) {
+function SongList({ songs, onSelectSong }) {
   const [filteredSongs, setFilteredSongs] = useState(songs);
   const [selectedSection, setSelectedSection] = useState("For You");
   const [loading, setLoading] = useState(true);
@@ -63,7 +63,6 @@ function SongList({ songs, onSelectSong, backgroundColor }) {
             <Search
               onFilter={handleSearch}
               songs={songs}
-              backgroundColor={backgroundColor}
             />
           </div>
 
@@ -74,7 +73,6 @@ function SongList({ songs, onSelectSong, backgroundColor }) {
                 song={song}
                 url={song.url}
                 onSelectSong={() => onSelectSong(song)}
-                backgroundColor={backgroundColor}
               />
             ))}
           </div>

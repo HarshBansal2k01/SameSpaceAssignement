@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import searchLogo from "../assets/searchLogo.svg";
 
-function Search({ songs, onFilter, backgroundColor }) {
+function Search({ songs, onFilter }) {
   const [query, setQuery] = useState("");
 
   const handleChange = (event) => {

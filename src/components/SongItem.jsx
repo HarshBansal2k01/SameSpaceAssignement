@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import "./SongItem.css";
 
-function SongItem({ song, onSelectSong, backgroundColor, url }) {
+function SongItem({ song, onSelectSong, url }) {
   const [duration, setDuration] = useState(null);
 
   return (
