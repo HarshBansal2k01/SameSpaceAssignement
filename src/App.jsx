@@ -4,8 +4,7 @@ import SongList from "./components/SongList";
 import Player from "./components/Player";
 import axios from "axios";
 import Vibrant from "node-vibrant/lib/bundle";
-import CircularProgress from "@mui/material/CircularProgress";
-import "./App.css"
+import "./App.css";
 function App() {
   const [songs, setSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(null);
@@ -42,10 +41,9 @@ function App() {
           setSelectedSong(fetchedSongs[0]);
           changeBackgroundColor(fetchedSongs[0].cover);
         }
-        // Delay hiding loader for a short duration
         setTimeout(() => {
           setShowLoader(false);
-        }, 1000); // Adjust the timeout duration as needed
+        }, 1000);
       })
       .catch((error) => {
         console.error("Error fetching songs:", error);
@@ -64,12 +62,12 @@ function App() {
         background: `linear-gradient(to right, ${backgroundColor}, #333333)`,
         transition: "background 0.5s ease",
         minHeight: "100vh",
-        position: "relative", // To position loader absolutely
+        position: "relative",
       }}
     >
       {showLoader && (
         <div className="absolute inset-0 flex justify-center items-center bg-black">
-          <Header/>
+          <Header />
         </div>
       )}
 

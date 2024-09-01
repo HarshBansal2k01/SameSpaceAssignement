@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Search from "./Search"; // Make sure to import your Search component
-import SongItem from "./SongItem"; // Import the updated SongItem component
+import Search from "./Search";
+import SongItem from "./SongItem"; 
 import Loader from "./Loader";
 
 function SongList({ songs, onSelectSong }) {
@@ -9,11 +9,11 @@ function SongList({ songs, onSelectSong }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true); // Set loading to true when songs are updated
+    setLoading(true); 
     setTimeout(() => {
       filterSongs();
-      setLoading(false); // Set loading to false after filtering songs
-    }, 1000); // Simulate a short delay for loading effect
+      setLoading(false); 
+    }, 1000); 
   }, [songs, selectedSection]);
 
   const handleSearch = (searchResults) => {
@@ -55,7 +55,7 @@ function SongList({ songs, onSelectSong }) {
 
       {loading ? (
         <div className="flex justify-center items-center h-full">
-          <Loader /> {/* Use your custom Loader component if needed */}
+          <Loader /> 
         </div>
       ) : (
         <>

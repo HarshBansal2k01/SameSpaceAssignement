@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import ReactPlayer from "react-player"; // Import ReactPlayer
-import play from "../assets/playBtn.svg";
-import pause from "../assets/pausebtn.svg";
+import ReactPlayer from "react-player";
 import next from "../assets/nextbtn.svg";
 import prev from "../assets/prevbtn.svg";
-import moreBtn from "../assets/morebtn.svg";
 import { useMediaQuery } from "@mui/material";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
@@ -23,16 +20,16 @@ const Player = ({
   onSelectSong,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [played, setPlayed] = useState(0); // Track progress
-  const [duration, setDuration] = useState(0); // Track total duration
+  const [played, setPlayed] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(
-    songs.findIndex((s) => s.id === song.id) // Initialize with the current song's index
+    songs.findIndex((s) => s.id === song.id)
   );
-  const [volume, setVolume] = useState(0.8); // Default volume (80%)
-  const [showVolumeControl, setShowVolumeControl] = useState(false); // Track volume control visibility
+  const [volume, setVolume] = useState(0.8);
+  const [showVolumeControl, setShowVolumeControl] = useState(false);
   const [initialStart, setInitialStart] = useState(0);
   const audioRef = useRef(null);
-  const isMobileOrTablet = useMediaQuery("(max-width: 1024px)"); // Detects md or smaller screens
+  const isMobileOrTablet = useMediaQuery("(max-width: 1024px)");
 
   useEffect(() => {
     if (!isMobileOrTablet && !isListVisible) {
@@ -62,7 +59,7 @@ const Player = ({
     if (currentIndex !== null) {
       const newIndex = (currentIndex + 1) % songs.length;
       setCurrentIndex(newIndex);
-      setIsPlaying(false); // Pause the current song
+      setIsPlaying(false);
       onSelectSong(songs[newIndex]);
     }
   };
@@ -81,30 +78,25 @@ const Player = ({
 
   const currentSong = songs[currentIndex];
 
-  // Handle progress bar change
   const handleSeekChange = (e) => {
     const newValue = parseFloat(e.target.value);
     setPlayed(newValue);
   };
 
-  // Handle progress updates from ReactPlayer
   const handleProgress = (progress) => {
     setPlayed(progress.played);
   };
 
-  // Seek to the new position when the user stops dragging the seeker
   const handleSeekMouseUp = (e) => {
     const newValue = parseFloat(e.target.value);
     setPlayed(newValue);
     audioRef.current.seekTo(newValue);
   };
 
-  // Toggle volume control visibility
   const handleVolumeClick = () => {
     setShowVolumeControl((prev) => !prev);
   };
 
-  // Handle volume change
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
@@ -112,7 +104,7 @@ const Player = ({
 
   const handleMoreButtonClick = () => {
     if (isMobileOrTablet) {
-      toggleView(); // Only toggle the view when in mobile or tablet view
+      toggleView();
     }
   };
 
@@ -183,7 +175,7 @@ const Player = ({
               >
                 <div className="flex items-center justify-center bg-white rounded-full w-[32px] md:w-[48px] lg:w-[48px] h-[32px] md:h-[48px] lg:h-[48px]">
                   {isPlaying ? (
-                    <PauseIcon className="w-[24px] h-[24px] text-black" />
+                    <PauseIcon className="w-[40px] h-[40px] text-black" />
                   ) : (
                     <PlayArrowIcon className="w-[24px] h-[24px] text-black" />
                   )}
@@ -200,7 +192,7 @@ const Player = ({
             <div className="relative mt-0.5">
               <button
                 onClick={handleVolumeClick}
-                className="bg-black/20 rounded-full p-2 md:p-2 lg:p-4"
+                className="bg-black/20 rounded-full p-2 md:p-2 lg:p-4 flex items-center justify-center"
               >
                 {volume === 0 ? (
                   <VolumeOffIcon className="w-[24px] md:w-[32px] lg:w-[48px] h-[24px] md:h-[32px] lg:h-[48px] text-white -mt-1" />
@@ -210,7 +202,7 @@ const Player = ({
               </button>
 
               {showVolumeControl && (
-                <div className="absolute -top-[30px] right-0 w-max rounded-lg">
+                <div className="absolute -top-[20px] right-0 w-max rounded-lg flex items-center">
                   <input
                     type="range"
                     min={0}
@@ -227,6 +219,9 @@ const Player = ({
                       cursor: "pointer",
                     }}
                   />
+                  <div className="text-white text-xs text-center ml-2">
+                    {Math.round(volume * 100)}%
+                  </div>
                 </div>
               )}
             </div>
@@ -239,7 +234,7 @@ const Player = ({
           ref={audioRef}
           url={currentSong.url}
           playing={isPlaying}
-          controls={false} // We don't need built-in controls anymore
+          controls={false}
           volume={volume}
           width="0"
           height="0"
