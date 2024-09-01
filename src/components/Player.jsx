@@ -5,9 +5,13 @@ import pause from "../assets/pausebtn.svg";
 import next from "../assets/nextbtn.svg";
 import prev from "../assets/prevbtn.svg";
 import moreBtn from "../assets/morebtn.svg";
-import audioBtn from "../assets/volbtn.svg";
 import { useMediaQuery } from "@mui/material";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import "./Player.css";
 
 const Player = ({
@@ -66,7 +70,7 @@ const Player = ({
   useEffect(() => {
     if (currentIndex !== null && songs[currentIndex]) {
       const newSong = songs[currentIndex];
-      if (initialStart == 0) {
+      if (initialStart === 0) {
         setIsPlaying(false);
         setInitialStart(1);
       } else {
@@ -105,6 +109,7 @@ const Player = ({
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
   };
+
   const handleMoreButtonClick = () => {
     if (isMobileOrTablet) {
       toggleView(); // Only toggle the view when in mobile or tablet view
@@ -124,7 +129,7 @@ const Player = ({
             </span>
           </div>
           {currentSong.cover ? (
-            <div className="flex-1 flex items-center h-[300px] md:h-[400px] lg:h-[510px] justify-center overflow-hidden mt-4">
+            <div className="flex-1 flex items-center h-[300px] md:h-[400px] lg:h-[480px] justify-center overflow-hidden mt-4">
               <img
                 src={`https://cms.samespace.com/assets/${currentSong.cover}`}
                 alt={currentSong.name}
@@ -155,33 +160,36 @@ const Player = ({
             }}
           />
           <div className="flex justify-between items-center mt-4">
-            <button className="px-2 py-2 " onClick={handleMoreButtonClick}>
-              <img
-                src={moreBtn}
-                alt="More"
-                className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px] "
-              />
-            </button>
+            <div className="relative mt-0.5">
+              <button
+                onClick={handleMoreButtonClick}
+                className="bg-black/20 rounded-full p-2 md:p-2 lg:p-4"
+              >
+                <MoreHorizIcon className="w-[24px] md:w-[32px] lg:w-[48px] h-[24px] md:h-[32px] lg:h-[48px] text-white -mt-1" />
+              </button>
+            </div>
 
             <div className="flex justify-center">
-              <button onClick={handlePrev}>
+              <button onClick={handlePrev} className="p-1 md:p-2 lg:p-3">
                 <img
                   src={prev}
                   alt="Prev"
-                  className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px] "
+                  className="w-[24px] lg:w-[32px] h-[24px] lg:h-[32px]"
                 />
               </button>
               <button
-                className="px-4 py-2 transition"
+                className="relative p-1 md:p-2 lg:p-1 bg-black rounded-full flex items-center justify-center transition"
                 onClick={() => setIsPlaying(!isPlaying)}
               >
-                <img
-                  src={isPlaying ? pause : play}
-                  alt={isPlaying ? "Pause" : "Play"}
-                  className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px]"
-                />
+                <div className="flex items-center justify-center bg-black rounded-full w-[32px] md:w-[48px] lg:w-[48px] h-[32px] md:h-[48px] lg:h-[48px]">
+                  {isPlaying ? (
+                    <PauseIcon className="w-[24px] h-[24px] text-white" />
+                  ) : (
+                    <PlayArrowIcon className="w-[24px] h-[24px] text-white" />
+                  )}
+                </div>
               </button>
-              <button onClick={handleNext}>
+              <button onClick={handleNext} className="p-1 md:p-2 lg:p-3">
                 <img
                   src={next}
                   alt="Next"
@@ -189,17 +197,20 @@ const Player = ({
                 />
               </button>
             </div>
-
-            <div className="relative">
-              <button onClick={handleVolumeClick}>
-                <img
-                  src={audioBtn}
-                  alt="Audio"
-                  className="w-[32px] lg:w-[48px] h-[32px] lg:h-[48px] "
-                />
+            <div className="relative mt-0.5">
+              <button
+                onClick={handleVolumeClick}
+                className="bg-black/20 rounded-full p-2 md:p-2 lg:p-4"
+              >
+                {volume === 0 ? (
+                  <VolumeOffIcon className="w-[24px] md:w-[32px] lg:w-[48px] h-[24px] md:h-[32px] lg:h-[48px] text-white -mt-1" />
+                ) : (
+                  <VolumeUpIcon className="w-[20px] md:w-[32px] lg:w-[48px] h-[20px] md:h-[32px] lg:h-[48px] text-white -mt-1" />
+                )}
               </button>
+
               {showVolumeControl && (
-                <div className="absolute -top-[160px] right-0 bg-gray-800 p-2 rounded-lg shadow-lg">
+                <div className="absolute -top-[30px] right-0 w-max rounded-lg">
                   <input
                     type="range"
                     min={0}
@@ -207,7 +218,7 @@ const Player = ({
                     step="any"
                     value={volume}
                     onChange={handleVolumeChange}
-                    className="w-[160px] h-[6px] rounded-lg slider"
+                    className="w-[120px] md:w-[140px] lg:w-[160px] h-[4px] md:h-[5px] lg:h-[6px] rounded-lg slider"
                     style={{
                       background: `linear-gradient(to right, white ${
                         volume * 100
@@ -229,7 +240,7 @@ const Player = ({
           url={currentSong.url}
           playing={isPlaying}
           controls={false} // We don't need built-in controls anymore
-          volume={volume} // Set volume for the player
+          volume={volume}
           width="0"
           height="0"
           onProgress={handleProgress}
