@@ -1,6 +1,6 @@
 ---
 
-# Project Name
+# Music Player UI
 
 A React application utilizing Vite for development, Material UI for UI components, Tailwind CSS for styling, and Node-Vibrant for dynamic background colors. This project also includes React Player for media playback.
 
