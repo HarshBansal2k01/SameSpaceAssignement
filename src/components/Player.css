@@ -48,3 +48,5 @@ input[type="range"].slider::-ms-thumb {
 .transition-transform {
   transition: transform 0.5s ease;
 }
+
+

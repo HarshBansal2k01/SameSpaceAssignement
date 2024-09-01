@@ -192,7 +192,7 @@ const Player = ({
             <div className="relative mt-0.5">
               <button
                 onClick={handleVolumeClick}
-                className="bg-black/20 rounded-full p-2 md:p-2 lg:p-4 flex items-center justify-center"
+                className="bg-black/20 rounded-full p-2 md:p-2 lg:p-4"
               >
                 {volume === 0 ? (
                   <VolumeOffIcon className="w-[24px] md:w-[32px] lg:w-[48px] h-[24px] md:h-[32px] lg:h-[48px] text-white -mt-1" />
@@ -202,7 +202,7 @@ const Player = ({
               </button>
 
               {showVolumeControl && (
-                <div className="absolute -top-[20px] right-0 w-max rounded-lg flex items-center">
+                <div className="absolute -top-[30px] right-0 w-max rounded-lg">
                   <input
                     type="range"
                     min={0}
@@ -219,9 +219,6 @@ const Player = ({
                       cursor: "pointer",
                     }}
                   />
-                  <div className="text-white text-xs text-center ml-2">
-                    {Math.round(volume * 100)}%
-                  </div>
                 </div>
               )}
             </div>
