@@ -16,7 +16,7 @@ const Player = ({
   toggleView,
   isListVisible,
   setIsListVisible,
-  onSelectSong
+  onSelectSong,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [played, setPlayed] = useState(0); // Track progress
@@ -26,7 +26,7 @@ const Player = ({
   );
   const [volume, setVolume] = useState(0.8); // Default volume (80%)
   const [showVolumeControl, setShowVolumeControl] = useState(false); // Track volume control visibility
-
+  const [initialStart, setInitialStart] = useState(0);
   const audioRef = useRef(null);
   const isMobileOrTablet = useMediaQuery("(max-width: 1024px)"); // Detects md or smaller screens
 
@@ -34,7 +34,6 @@ const Player = ({
     if (!isMobileOrTablet && !isListVisible) {
       setIsListVisible(true);
     } else if (isMobileOrTablet && isListVisible) {
-      // If the screen is 'md' or smaller and the list is visible, hide the list
       setIsListVisible(false);
     }
   }, [isMobileOrTablet, isListVisible, setIsListVisible]);
@@ -48,27 +47,31 @@ const Player = ({
 
   const handlePrev = () => {
     if (currentIndex !== null) {
-      const newIndex = (currentIndex - 1 + songs.length) % songs.length; // Handle wrap-around
+      const newIndex = (currentIndex - 1 + songs.length) % songs.length;
       setCurrentIndex(newIndex);
-      setIsPlaying(false); // Pause the current song
-      onSelectSong(songs[newIndex])
-
+      setIsPlaying(false);
+      onSelectSong(songs[newIndex]);
     }
   };
 
   const handleNext = () => {
     if (currentIndex !== null) {
-      const newIndex = (currentIndex + 1) % songs.length; // Handle wrap-around
+      const newIndex = (currentIndex + 1) % songs.length;
       setCurrentIndex(newIndex);
       setIsPlaying(false); // Pause the current song
-      onSelectSong(songs[newIndex])
+      onSelectSong(songs[newIndex]);
     }
   };
 
   useEffect(() => {
     if (currentIndex !== null && songs[currentIndex]) {
       const newSong = songs[currentIndex];
-      setIsPlaying(true); // Automatically start playing the new song
+      if (initialStart == 0) {
+        setIsPlaying(false);
+        setInitialStart(1);
+      } else {
+        setIsPlaying(true);
+      }
     }
   }, [currentIndex, songs]);
 
