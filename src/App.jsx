@@ -84,6 +84,7 @@ function App() {
             toggleView={toggleView} // Pass toggle function
             isListVisible={isListVisible}
             setIsListVisible={setIsListVisible}
+            onSelectSong={handleSelectSong}
           />
         </div>
       </div>

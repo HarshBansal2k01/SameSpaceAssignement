@@ -16,6 +16,7 @@ const Player = ({
   toggleView,
   isListVisible,
   setIsListVisible,
+  onSelectSong
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [played, setPlayed] = useState(0); // Track progress
@@ -50,6 +51,8 @@ const Player = ({
       const newIndex = (currentIndex - 1 + songs.length) % songs.length; // Handle wrap-around
       setCurrentIndex(newIndex);
       setIsPlaying(false); // Pause the current song
+      onSelectSong(songs[newIndex])
+
     }
   };
 
@@ -58,6 +61,7 @@ const Player = ({
       const newIndex = (currentIndex + 1) % songs.length; // Handle wrap-around
       setCurrentIndex(newIndex);
       setIsPlaying(false); // Pause the current song
+      onSelectSong(songs[newIndex])
     }
   };
 
