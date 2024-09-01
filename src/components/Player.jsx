@@ -178,14 +178,14 @@ const Player = ({
                 />
               </button>
               <button
-                className="relative p-1 md:p-2 lg:p-1 bg-black rounded-full flex items-center justify-center transition"
+                className="relative p-1 md:p-2 lg:p-1 bg-white rounded-full flex items-center justify-center transition"
                 onClick={() => setIsPlaying(!isPlaying)}
               >
-                <div className="flex items-center justify-center bg-black rounded-full w-[32px] md:w-[48px] lg:w-[48px] h-[32px] md:h-[48px] lg:h-[48px]">
+                <div className="flex items-center justify-center bg-white rounded-full w-[32px] md:w-[48px] lg:w-[48px] h-[32px] md:h-[48px] lg:h-[48px]">
                   {isPlaying ? (
-                    <PauseIcon className="w-[24px] h-[24px] text-white" />
+                    <PauseIcon className="w-[24px] h-[24px] text-black" />
                   ) : (
-                    <PlayArrowIcon className="w-[24px] h-[24px] text-white" />
+                    <PlayArrowIcon className="w-[24px] h-[24px] text-black" />
                   )}
                 </div>
               </button>
