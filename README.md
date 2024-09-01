@@ -31,4 +31,3 @@ The application is deployed and can be accessed at: [https://same-space-assignem
 
 ---
 
-Let me know if you need any more details or adjustments!
